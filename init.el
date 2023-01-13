@@ -60,6 +60,17 @@
   ;; per mode with `ligature-mode'.
   (global-ligature-mode t))
 
+;; Use prettify-symbols-mode to convert lambda keywords to lambda characters.
+(defun pretty-lambda ()
+  "Replace lambda keyword with Unicode symbol λ."
+  (setq prettify-symbols-alist
+        '(
+	  ("lambda" . 955)
+	  )))
+
+(add-hook 'emacs-lisp-mode-hook 'pretty-lambda)
+(global-prettify-symbols-mode 1)
+
 ;; Auto-pair parentheses, braces, quotes, etc.
 (electric-pair-mode t)
 
