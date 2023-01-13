@@ -72,7 +72,9 @@
 (global-prettify-symbols-mode 1)
 
 ;; Auto-pair parentheses, braces, quotes, etc.
-(electric-pair-mode t)
+(use-package smartparens)
+(require 'smartparens-config)
+(turn-on-smartparens-mode)
 
 ;; Turn on line numbers.
 (column-number-mode)
