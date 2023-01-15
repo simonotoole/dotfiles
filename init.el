@@ -174,6 +174,14 @@
 ;; Use $HOME/.bashrc for eshell.
 (setq shell-command-switch "-ic")
 
+;; Use company for auto-completion.
+(use-package company
+  :ensure t
+  :diminish company-mode
+  :bind ("M-/" . company-complete)
+  :config
+  (global-company-mode))
+
 ;; Elixir configuration.
 (unless (package-installed-p 'elixir-mode)
   (package-install 'elixir-mode))
@@ -192,7 +200,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(eglot evil-collection evil general helpful ivy-rich which-key use-package ligature doom-themes doom-modeline diminish counsel all-the-icons)))
+   '(company eglot evil-collection evil general helpful ivy-rich which-key use-package ligature doom-themes doom-modeline diminish counsel all-the-icons)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
