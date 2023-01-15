@@ -76,6 +76,9 @@
 (require 'smartparens-config)
 (turn-on-smartparens-mode)
 
+;; Visualize trailing whitespace in programming modes.
+(add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
+
 ;; Turn on line numbers.
 (column-number-mode)
 (global-display-line-numbers-mode t)
