@@ -16,6 +16,20 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+;; Set up straight.
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
 ;; Clean up Emac's user interface, make it more minimal.
 (setq inhibit-startup-message t)
 (setq frame-resize-pixelwise t)    ; Use whole screen when frame is maximized. Needed for KDE.
@@ -183,6 +197,25 @@
   :bind ("M-/" . company-complete)
   :config
   (global-company-mode))
+
+;; Set up GitHub Copilot.
+(use-package copilot
+  :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+  :ensure t)
+(add-hook 'prog-mode-hook 'copilot-mode)
+
+(with-eval-after-load 'company
+  ;; disable inline previews
+  (delq 'company-preview-if-just-one-frontend company-frontends))
+
+(defun my/copilot-tab ()
+  (interactive)
+  (or (copilot-accept-completion)
+      (indent-for-tab-command)))
+
+(with-eval-after-load 'copilot
+  (evil-define-key 'insert copilot-mode-map
+    (kbd "<tab>") #'my/copilot-tab))
 
 ;; Set up LSP using eglot.
 (require 'eglot)
